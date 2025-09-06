@@ -1,6 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import express from 'express';
-import { use } from 'react';
+import {
+  getUsers,
+  createUser,
+  getUserById,
+  deleteUserById,
+  updateUserById,
+} from '../controllers/users';
 
 const router = express.Router();
 // all routes here are starting from /users
@@ -18,35 +24,13 @@ let users = [
     id: uuidv4(),
   },
 ];
-router.get('/', (req, res) => {
-  console.log(users);
-  res.send(users);
-});
+router.get('/', getUsers);
 
-router.post('/', (req, res) => {
-  const user = req.body;
+router.post('/', createUser);
 
-  users.push({ ...user, id: uuidv4() });
-  res.send(users);
-});
+router.get('/:id', getUserById);
 
-router.get('/:id', (req, res) => {
-  const { id } = req.params;
-  const foundUser = users.find((user) => user?.id === id) || {};
-  res.send(`Get id route ${JSON.stringify(foundUser)}`);
-});
+router.delete('/:id', deleteUserById);
 
-router.delete('/:id', (req, res) => {
-  const { id } = req.params;
-  users = users.filter((user) => user.id !== id);
-  res.send(users);
-});
-
-router.patch('/:id', (req, res) => {
-  const { id } = req.params;
-  const foundUser = users.find((user) => user.id === id);
-  const updatedUser = { ...foundUser, ...req.body };
-  const index = users.findIndex((user) => user.id === id);
-  users[index] = updatedUser;
-});
+router.patch('/:id', updateUserById);
 export default router;
