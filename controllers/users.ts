@@ -2,11 +2,26 @@ import type { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 interface User {
   id: number | string;
-  name: string;
-  email: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  email?: string;
 }
 
-declare let users: User[];
+let users: User[] = [
+  {
+    firstName: 'John',
+    lastName: 'Doe',
+    age: 25,
+    id: uuidv4(),
+  },
+  {
+    firstName: 'Jane',
+    lastName: 'Phillph',
+    age: 21,
+    id: uuidv4(),
+  },
+];
 
 export const getUsers = (req: Request, res: Response) => {
   res.send(users);

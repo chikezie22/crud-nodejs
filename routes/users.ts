@@ -10,23 +10,63 @@ import {
 
 const router = express.Router();
 // all routes here are starting from /users
-let users = [
-  {
-    firstName: 'John',
-    lastName: 'Doe',
-    age: 25,
-    id: uuidv4(),
-  },
-  {
-    firstName: 'Jane',
-    lastName: 'Phillph',
-    age: 21,
-    id: uuidv4(),
-  },
-];
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Get all users
+ *     tags: [Users]   # 👈 this controls the header
+ *     responses:
+ *       200:
+ *         description: List of users
+ */
+
 router.get('/', getUsers);
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Create a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               age:
+ *                 type: number
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ */
 
 router.post('/', createUser);
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     summary: Get a user by ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The user ID
+ *     responses:
+ *       200:
+ *         description: User details
+ *       404:
+ *         description: User not found
+ */
 
 router.get('/:id', getUserById);
 
